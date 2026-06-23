@@ -1,0 +1,18 @@
+{
+  "original_nav_before_sync": [],
+  "notebooks": {
+    "4e909af3-6525-4f83-b0df-f71b2f344315": {
+      "name": "ProfControl",
+      "synced_notes": {
+        "636e8549-cbd1-4a21-b576-c779b40e4ead": "巷道与站点调度笔记",
+        "c48ad6af-819e-43ac-8c7f-e14556ac1307": "ProfControl 巷道调度系统完整笔记",
+        "fd445111-706a-410b-8ae2-c0b17d01c682": "ProfControl 通讯协议：原理、作用与使用指南",
+        "8b3ec27d-dade-44df-ad2c-3ad8389c7535": "GYSY_Simulation 仓储AGV调度仿真系统分析笔记",
+        "e99fde9e-bfac-448f-ba80-8d92ff5d9e2a": "GYSY_Simulation1 项目说明",
+        "d49f8c63-caca-43a7-a9a5-a5a6ff22c360": "ProfControl AGV仓储仿真系统 项目需求设计书",
+        "4c186f5f-b682-4bdd-87c0-7d9828d962d6": "异步回调（Asynchronous Callback）原理与 C# 实现"
+      }
+    }
+  },
+  "last_sync": "2026-06-23T11:28:14.014681"
+}

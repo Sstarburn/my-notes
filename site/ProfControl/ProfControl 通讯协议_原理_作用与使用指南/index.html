@@ -1,0 +1,1140 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../ProfControl%20%E5%B7%B7%E9%81%93%E8%B0%83%E5%BA%A6%E7%B3%BB%E7%BB%9F%E5%AE%8C%E6%95%B4%E7%AC%94%E8%AE%B0/">
+      
+      
+        <link rel="next" href="../GYSY_Simulation%20%E4%BB%93%E5%82%A8AGV%E8%B0%83%E5%BA%A6%E4%BB%BF%E7%9C%9F%E7%B3%BB%E7%BB%9F%E5%88%86%E6%9E%90%E7%AC%94%E8%AE%B0/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>ProfControl 通讯协议：原理、作用与使用指南 - 我的知识库</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#profcontrol" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="我的知识库" class="md-header__button md-logo" aria-label="我的知识库" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            我的知识库
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              ProfControl 通讯协议：原理、作用与使用指南
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  首页
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../%E8%B7%A8%E7%BB%88%E7%AB%AF%20Markdown%20%E7%9F%A5%E8%AF%86%E5%BA%93%E6%96%B9%E6%A1%88%E5%AF%B9%E6%AF%94/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  跨终端 Markdown 知识库 — 可行方案对比
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../ProfControl%20AGV%E4%BB%93%E5%82%A8%E4%BB%BF%E7%9C%9F%E7%B3%BB%E7%BB%9F%20%E9%A1%B9%E7%9B%AE%E9%9C%80%E6%B1%82%E8%AE%BE%E8%AE%A1%E4%B9%A6/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  ProfControl AGV仓储仿真系统 项目需求设计书
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../%E5%B7%B7%E9%81%93%E4%B8%8E%E7%AB%99%E7%82%B9%E8%B0%83%E5%BA%A6%E7%AC%94%E8%AE%B0/" class="md-tabs__link">
+          
+  
+  
+  ProfControl
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="我的知识库" class="md-nav__button md-logo" aria-label="我的知识库" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    我的知识库
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    首页
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E8%B7%A8%E7%BB%88%E7%AB%AF%20Markdown%20%E7%9F%A5%E8%AF%86%E5%BA%93%E6%96%B9%E6%A1%88%E5%AF%B9%E6%AF%94/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    跨终端 Markdown 知识库 — 可行方案对比
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ProfControl%20AGV%E4%BB%93%E5%82%A8%E4%BB%BF%E7%9C%9F%E7%B3%BB%E7%BB%9F%20%E9%A1%B9%E7%9B%AE%E9%9C%80%E6%B1%82%E8%AE%BE%E8%AE%A1%E4%B9%A6/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ProfControl AGV仓储仿真系统 项目需求设计书
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ProfControl
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    ProfControl
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../%E5%B7%B7%E9%81%93%E4%B8%8E%E7%AB%99%E7%82%B9%E8%B0%83%E5%BA%A6%E7%AC%94%E8%AE%B0/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    巷道与站点调度笔记
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ProfControl%20%E5%B7%B7%E9%81%93%E8%B0%83%E5%BA%A6%E7%B3%BB%E7%BB%9F%E5%AE%8C%E6%95%B4%E7%AC%94%E8%AE%B0/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ProfControl 巷道调度系统完整笔记
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ProfControl 通讯协议：原理、作用与使用指南
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../GYSY_Simulation%20%E4%BB%93%E5%82%A8AGV%E8%B0%83%E5%BA%A6%E4%BB%BF%E7%9C%9F%E7%B3%BB%E7%BB%9F%E5%88%86%E6%9E%90%E7%AC%94%E8%AE%B0/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    GYSY_Simulation 仓储AGV调度仿真系统分析笔记
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../GYSY_Simulation1%20%E9%A1%B9%E7%9B%AE%E8%AF%B4%E6%98%8E/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    GYSY_Simulation1 项目说明
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ProfControl%20AGV%E4%BB%93%E5%82%A8%E4%BB%BF%E7%9C%9F%E7%B3%BB%E7%BB%9F%20%E9%A1%B9%E7%9B%AE%E9%9C%80%E6%B1%82%E8%AE%BE%E8%AE%A1%E4%B9%A6/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ProfControl AGV仓储仿真系统 项目需求设计书
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../%E5%BC%82%E6%AD%A5%E5%9B%9E%E8%B0%83_Asynchronous%20Callback_%E5%8E%9F%E7%90%86%E4%B8%8E%20C_%20%E5%AE%9E%E7%8E%B0/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    异步回调（Asynchronous Callback）原理与 C# 实现
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="profcontrol">ProfControl 通讯协议：原理、作用与使用指南</h1>
+<h1 id="profcontrol_1">ProfControl 通讯协议：原理、作用与使用指南</h1>
+<h2 id="_1">一、什么是通讯协议？</h2>
+<blockquote>
+<p><strong>形象比喻</strong>：语言就是协议。中国人和中国人能沟通是因为都懂中文；中国人和美国人如果各自只懂自己的语言，就无法交流。如果美国人也懂中文，就可以交流了。</p>
+</blockquote>
+<p>在 ProfControl 中，<strong>通讯协议脚本</strong> 是一套专门用来对接 AGV、物流设备、厂内复杂设备的“翻译官”程序。</p>
+<hr />
+<h2 id="_2">二、通讯协议的原理</h2>
+<h3 id="21">2.1 数据流的两个方向</h3>
+<ul>
+<li><strong>下发命令</strong>：ProfControl → 车体（路径、动作等）</li>
+<li><strong>上传状态</strong>：车体 → ProfControl（电量、位置、速度等）</li>
+</ul>
+<h3 id="22">2.2 事件驱动机制（核心原理）</h3>
+<p>ProfControl <strong>不是轮询</strong>问“车该走了没”，而是采用<strong>事件驱动</strong>机制：</p>
+<ul>
+<li>系统条件满足（如路径规划完成）→ 自动触发事件</li>
+<li>通讯脚本预先注册事件 → 事件触发时执行对应函数</li>
+</ul>
+<hr />
+<h2 id="_3">三、通讯协议的作用</h2>
+<table>
+<thead>
+<tr>
+<th>作用</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>桥接异构系统</td>
+<td>将 ProfControl 的“内部语言”翻译成车体 PLC 能理解的“字节报文”</td>
+</tr>
+<tr>
+<td>适配不同设备</td>
+<td>不同品牌 AGV（海康、极智嘉、快仓等）协议不同，通过不同脚本来适配</td>
+</tr>
+<tr>
+<td>组装/解析报文</td>
+<td>将路径、动作等结构化数据打包成字节流发送，反之解析收到的字节流</td>
+</tr>
+<tr>
+<td>实现双向通讯</td>
+<td>下发命令，接收状态（电量、位置）</td>
+</tr>
+<tr>
+<td>交通管制联动</td>
+<td>与 ProfControl 的路径规划和交通管制联动，完成智能调度</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="_4">四、通讯协议脚本的结构</h2>
+<h3 id="41">4.1 协议主体脚本（示例）</h3>
+<div class="highlight"><pre><span></span><code><span class="k">namespace</span><span class="w"> </span><span class="nn">ProfControl</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="k">partial</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">CommuTest</span><span class="w">  </span><span class="c1">// partial，和下面的类是一个类</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="k">public</span><span class="w"> </span><span class="k">void</span><span class="w"> </span><span class="nf">InitVirtual</span><span class="p">()</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">            </span><span class="kt">var</span><span class="w"> </span><span class="n">mapAgvVirtual</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">EventMap</span><span class="o">&lt;</span><span class="n">IAgvVirtual</span><span class="o">&gt;</span><span class="p">();</span>
+<span class="w">            </span><span class="n">mapAgvVirtual</span><span class="p">.</span><span class="n">Register</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">agvVirtual</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span>
+<span class="w">            </span><span class="p">{</span>
+<span class="w">                </span><span class="n">agvVirtual</span><span class="p">.</span><span class="n">AgvVirtualUpdateStatusEvent</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">AgvVirtual_UpdateStatusEvent</span><span class="p">;</span>
+<span class="w">                </span><span class="n">agvVirtual</span><span class="p">.</span><span class="n">AgvVirtualGetNewMarkEvent</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">AgvVirtual_GetNewMarkEvent</span><span class="p">;</span>
+<span class="w">            </span><span class="p">};</span>
+<span class="w">            </span><span class="n">mapAgvVirtual</span><span class="p">.</span><span class="n">Unregister</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">agvVirtual</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span>
+<span class="w">            </span><span class="p">{</span>
+<span class="w">                </span><span class="n">agvVirtual</span><span class="p">.</span><span class="n">AgvVirtualUpdateStatusEvent</span><span class="w"> </span><span class="o">-=</span><span class="w"> </span><span class="n">AgvVirtual_UpdateStatusEvent</span><span class="p">;</span>
+<span class="w">                </span><span class="n">agvVirtual</span><span class="p">.</span><span class="n">AgvVirtualGetNewMarkEvent</span><span class="w"> </span><span class="o">-=</span><span class="w"> </span><span class="n">AgvVirtual_GetNewMarkEvent</span><span class="p">;</span>
+<span class="w">            </span><span class="p">};</span>
+<span class="w">            </span><span class="n">Maps</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="n">mapAgvVirtual</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span>
+
+<span class="w">        </span><span class="c1">// 模拟车体上报位置/状态</span>
+<span class="w">        </span><span class="k">private</span><span class="w"> </span><span class="k">void</span><span class="w"> </span><span class="nf">AgvVirtual_UpdateStatusEvent</span><span class="p">(</span><span class="kt">object</span><span class="w"> </span><span class="n">sender</span><span class="p">,</span><span class="w"> </span><span class="n">AgvVirtualUpdateStatusEventArgs</span><span class="w"> </span><span class="n">e</span><span class="p">)</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">            </span><span class="kt">var</span><span class="w"> </span><span class="n">agvVirtual</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sender</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">IAgvVirtual</span><span class="p">;</span>
+<span class="w">            </span><span class="c1">// 模拟发送电量、速度等数据</span>
+<span class="w">        </span><span class="p">}</span>
+
+<span class="w">        </span><span class="c1">// 模拟车体到达新地标</span>
+<span class="w">        </span><span class="k">private</span><span class="w"> </span><span class="k">void</span><span class="w"> </span><span class="nf">AgvVirtual_GetNewMarkEvent</span><span class="p">(</span><span class="kt">object</span><span class="w"> </span><span class="n">sender</span><span class="p">,</span><span class="w"> </span><span class="n">AgvVirtualGetNewMarkEventArgs</span><span class="w"> </span><span class="n">e</span><span class="p">)</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">            </span><span class="kt">var</span><span class="w"> </span><span class="n">agvVirtual</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sender</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">IAgvVirtual</span><span class="p">;</span>
+<span class="w">            </span><span class="c1">// 通知 ProfControl 车到达了某个站点</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<hr />
+<h2 id="api">五、API 数据接收接口（上传数据时使用）</h2>
+<p>当车体发来数据，解析完后，调用以下 API 将数据“喂”给 ProfControl：</p>
+<table>
+<thead>
+<tr>
+<th>API 调用</th>
+<th>作用</th>
+<th>使用场景</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>API.BatteryRecv(agv, 85)</code></td>
+<td>传递电池电量（0-100）</td>
+<td>车体上报电量时</td>
+</tr>
+<tr>
+<td><code>API.VoltageRecv(agv, 48.5)</code></td>
+<td>传递电池电压</td>
+<td>车体上报电压时</td>
+</tr>
+<tr>
+<td><code>API.SpeedRecv(agv, 1.2)</code></td>
+<td>传递当前速度（m/s）</td>
+<td>车体上报速度时</td>
+</tr>
+<tr>
+<td><code>API.LocationRecv(agv, x, y)</code></td>
+<td>传递坐标位置</td>
+<td>激光/二维码导航车</td>
+</tr>
+<tr>
+<td><code>API.NewMarkPointRecv(agv, "A01")</code></td>
+<td>传递到达的新地标</td>
+<td>到达新站点时调用</td>
+</tr>
+<tr>
+<td><code>API.DriveDistanceRecv(agv, dx, dy)</code></td>
+<td>传递位移增量</td>
+<td>磁导航车</td>
+</tr>
+<tr>
+<td><code>API.AngleRecv(agv, 90.5)</code></td>
+<td>传递车体角度（度）</td>
+<td>需要角度信息时</td>
+</tr>
+<tr>
+<td><code>API.DoActionRecv(agv, actionId)</code></td>
+<td>通知动作已完成</td>
+<td>机械手/顶升完成反馈</td>
+</tr>
+<tr>
+<td><code>API.WarningRecv(agv, "电池过低")</code></td>
+<td>传递告警信息</td>
+<td>车体异常时</td>
+</tr>
+<tr>
+<td><code>API.CommQualityRecv(agv, 95)</code></td>
+<td>传递通讯质量（0-100）</td>
+<td>监控通讯健康度</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="_5">六、详细使用步骤（从零开始配置）</h2>
+<h3 id="1">步骤 1：编写通讯协议脚本</h3>
+<ul>
+<li>打开 ProfControl → 切换到脚本页面 → 创建新项目（类型选“通讯协议”）</li>
+<li>创建文件并粘贴模板代码</li>
+<li>按车体协议编写组包/解包逻辑</li>
+<li>编译</li>
+</ul>
+<h3 id="2">步骤 2：添加协议到系统中</h3>
+<ul>
+<li>设置 → 通讯协议配置 → 点击 <code>+</code> → 选择编译好的协议</li>
+<li>文件路径：<code>CommScript\你的协议名\bin\Debug\你的协议.dll</code></li>
+</ul>
+<h3 id="3">步骤 3：配置通讯单元</h3>
+<ul>
+<li>设置 → 通讯配置 → 点击 <code>+</code> → 填写以下内容：</li>
+<li>IP 地址</li>
+<li>端口号（多台同类型设备端口必须不重复）</li>
+</ul>
+<h3 id="4">步骤 4：测试通讯</h3>
+<ul>
+<li>点击“发送测试”按钮，发送 <code>Hello world!</code> 测试字符串，确认链路是否通</li>
+</ul>
+<h3 id="5">步骤 5：运行调试</h3>
+<ul>
+<li>点击运行按钮，检查日志输出，确认数据收发正常</li>
+</ul>
+<hr />
+<h2 id="tcp-agv">七、完整实际案例：对接一台 TCP AGV</h2>
+<h3 id="_6">场景描述</h3>
+<ul>
+<li>AGV 通过 TCP 通讯</li>
+<li>ProfControl 规划路径后，将路径地标列表通过 TCP 下发</li>
+<li>AGV 每隔 1 秒上报一次状态（电量、速度、当前地标）</li>
+</ul>
+<h3 id="_7">车体协议格式</h3>
+<h4 id="_8">下发路径报文格式：</h4>
+<div class="highlight"><pre><span></span><code>包头（0xAA 0x55）+ 命令字（0x01）+ 地标数量 + 地标1 + 地标2 + ... + CRC16
+</code></pre></div>
+<h4 id="_9">上传状态报文格式：</h4>
+<div class="highlight"><pre><span></span><code>包头（0x55 0xAA）+ 长度 + 电量 + 速度 + 当前地标 + CRC16
+</code></pre></div>
+<h3 id="_10">通讯脚本实现</h3>
+<h4 id="_11">下发路径（组包）</h4>
+<div class="highlight"><pre><span></span><code><span class="c1">// 1. 提取地标列表</span>
+<span class="n">List</span><span class="o">&lt;</span><span class="kt">string</span><span class="o">&gt;</span><span class="w"> </span><span class="n">marks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="kt">string</span><span class="o">&gt;</span><span class="p">();</span>
+<span class="k">foreach</span><span class="w"> </span><span class="p">(</span><span class="kt">var</span><span class="w"> </span><span class="n">route</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">routes</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="n">marks</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="n">route</span><span class="p">.</span><span class="n">InStation</span><span class="p">.</span><span class="n">MarkPointValueMirror</span><span class="p">);</span>
+<span class="w">    </span><span class="n">marks</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="n">route</span><span class="p">.</span><span class="n">OutStation</span><span class="p">.</span><span class="n">MarkPointValueMirror</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="c1">// 2. 组装报文</span>
+<span class="n">List</span><span class="o">&lt;</span><span class="kt">byte</span><span class="o">&gt;</span><span class="w"> </span><span class="n">sendBuffer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="kt">byte</span><span class="o">&gt;</span><span class="p">();</span>
+<span class="n">sendBuffer</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="mh">0xAA</span><span class="p">);</span>
+<span class="n">sendBuffer</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="mh">0x55</span><span class="p">);</span>
+<span class="n">sendBuffer</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="mh">0x01</span><span class="p">);</span><span class="w"> </span><span class="c1">// 命令字：路径下发</span>
+<span class="n">sendBuffer</span><span class="p">.</span><span class="n">Add</span><span class="p">((</span><span class="kt">byte</span><span class="p">)</span><span class="n">marks</span><span class="p">.</span><span class="n">Count</span><span class="p">);</span>
+
+<span class="k">foreach</span><span class="w"> </span><span class="p">(</span><span class="kt">var</span><span class="w"> </span><span class="n">mark</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">marks</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="kt">var</span><span class="w"> </span><span class="n">markBytes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Encoding</span><span class="p">.</span><span class="n">ASCII</span><span class="p">.</span><span class="n">GetBytes</span><span class="p">(</span><span class="n">mark</span><span class="p">.</span><span class="n">PadRight</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="sc">&#39; &#39;</span><span class="p">));</span>
+<span class="w">    </span><span class="n">sendBuffer</span><span class="p">.</span><span class="n">AddRange</span><span class="p">(</span><span class="n">markBytes</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="c1">// 计算 CRC</span>
+<span class="kt">ushort</span><span class="w"> </span><span class="n">crc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">CommuHelper</span><span class="p">.</span><span class="n">CalcRC16</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">sendBuffer</span><span class="p">.</span><span class="n">ToArray</span><span class="p">(),</span><span class="w"> </span><span class="n">sendBuffer</span><span class="p">.</span><span class="n">Count</span><span class="p">);</span>
+<span class="n">sendBuffer</span><span class="p">.</span><span class="n">AddRange</span><span class="p">(</span><span class="n">BitConverter</span><span class="p">.</span><span class="n">GetBytes</span><span class="p">(</span><span class="n">crc</span><span class="p">));</span>
+
+<span class="c1">// 3. 通过 TCP 发送</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">devInfo</span><span class="p">.</span><span class="n">Connected</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="k">true</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="n">CommuData</span><span class="p">(</span><span class="n">devInfo</span><span class="p">.</span><span class="n">Session</span><span class="p">,</span><span class="w"> </span><span class="n">sendBuffer</span><span class="p">.</span><span class="n">ToArray</span><span class="p">(),</span><span class="w"> </span><span class="n">sendBuffer</span><span class="p">.</span><span class="n">Count</span><span class="p">);</span>
+<span class="w">    </span><span class="n">Tools</span><span class="p">.</span><span class="n">trace</span><span class="p">(</span><span class="s">$&quot;已向{agv.Name}下发路径：{string.Join(&quot;</span><span class="o">-&gt;</span><span class="s">&quot;, marks)}&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+<h4 id="_12">接收解析（上传状态）</h4>
+<div class="highlight"><pre><span></span><code><span class="k">public</span><span class="w"> </span><span class="k">void</span><span class="w"> </span><span class="n">RecvData</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="p">(</span><span class="n">ICommMedia</span><span class="w"> </span><span class="n">commu</span><span class="p">,</span><span class="w"> </span><span class="n">DevWithIpInfo</span><span class="w"> </span><span class="n">ipInfo</span><span class="p">,</span><span class="w"> </span><span class="n">SBuffer</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="w"> </span><span class="n">_buffer</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="n">ArrayBuffer</span><span class="o">&lt;</span><span class="kt">byte</span><span class="o">&gt;</span><span class="w"> </span><span class="n">buffer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">_buffer</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">ArrayBuffer</span><span class="o">&lt;</span><span class="kt">byte</span><span class="o">&gt;</span><span class="p">;</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">ipInfo</span><span class="p">.</span><span class="n">Dev</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="n">IAgv</span><span class="w"> </span><span class="n">agv</span><span class="p">)</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="k">true</span><span class="p">)</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">buffer</span><span class="p">.</span><span class="n">Count</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">4</span><span class="p">)</span><span class="w"> </span><span class="k">break</span><span class="p">;</span>
+
+<span class="w">            </span><span class="c1">// 查找包头 0x55 0xAA</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">buffer</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mh">0x55</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">buffer</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mh">0xAA</span><span class="p">)</span>
+<span class="w">            </span><span class="p">{</span>
+<span class="w">                </span><span class="n">buffer</span><span class="p">.</span><span class="n">Move</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+<span class="w">                </span><span class="k">continue</span><span class="p">;</span>
+<span class="w">            </span><span class="p">}</span>
+
+<span class="w">            </span><span class="kt">int</span><span class="w"> </span><span class="n">length</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">buffer</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">buffer</span><span class="p">.</span><span class="n">Count</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">length</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">4</span><span class="p">)</span><span class="w"> </span><span class="k">break</span><span class="p">;</span>
+
+<span class="w">            </span><span class="c1">// 解析数据</span>
+<span class="w">            </span><span class="kt">byte</span><span class="w"> </span><span class="n">battery</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">buffer</span><span class="p">[</span><span class="mi">3</span><span class="p">];</span>
+<span class="w">            </span><span class="kt">byte</span><span class="w"> </span><span class="n">speed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">buffer</span><span class="p">[</span><span class="mi">4</span><span class="p">];</span>
+<span class="w">            </span><span class="kt">string</span><span class="w"> </span><span class="n">mark</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Encoding</span><span class="p">.</span><span class="n">ASCII</span><span class="p">.</span><span class="n">GetString</span><span class="p">(</span><span class="n">buffer</span><span class="p">.</span><span class="n">Skip</span><span class="p">(</span><span class="mi">5</span><span class="p">).</span><span class="n">Take</span><span class="p">(</span><span class="mi">4</span><span class="p">).</span><span class="n">ToArray</span><span class="p">());</span>
+
+<span class="w">            </span><span class="c1">// 调用 API 传递给 ProfControl</span>
+<span class="w">            </span><span class="n">API</span><span class="p">.</span><span class="n">BatteryRecv</span><span class="p">(</span><span class="n">agv</span><span class="p">,</span><span class="w"> </span><span class="n">battery</span><span class="p">);</span>
+<span class="w">            </span><span class="n">API</span><span class="p">.</span><span class="n">SpeedRecv</span><span class="p">(</span><span class="n">agv</span><span class="p">,</span><span class="w"> </span><span class="n">speed</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mf">10.0</span><span class="p">);</span>
+<span class="w">            </span><span class="n">API</span><span class="p">.</span><span class="n">NewMarkPointRecv</span><span class="p">(</span><span class="n">agv</span><span class="p">,</span><span class="w"> </span><span class="n">mark</span><span class="p">.</span><span class="n">Trim</span><span class="p">());</span>
+
+<span class="w">            </span><span class="c1">// 移动缓存</span>
+<span class="w">            </span><span class="n">buffer</span><span class="p">.</span><span class="n">Move</span><span class="p">(</span><span class="n">length</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">4</span><span class="p">);</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">buffer</span><span class="p">.</span><span class="n">Empty</span><span class="p">)</span><span class="w"> </span><span class="k">break</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<hr />
+<h2 id="_13">八、通讯脚本中的可用事件汇总</h2>
+<table>
+<thead>
+<tr>
+<th>事件名称</th>
+<th>触发时机</th>
+<th>典型用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>GetNewRoutesEvent</code></td>
+<td>路径规划完成</td>
+<td>下发路径报文（最重要）</td>
+</tr>
+<tr>
+<td><code>EnterNewRouteEvent</code></td>
+<td>AGV 进入一段新路径</td>
+<td>更新车体当前路段信息</td>
+</tr>
+<tr>
+<td><code>DoActionEvent</code></td>
+<td>需要执行机构动作</td>
+<td>下发顶升/滚筒/夹取指令</td>
+</tr>
+<tr>
+<td><code>RouteFinishedEvent</code></td>
+<td>一段子路径走完</td>
+<td>确认车体完成某段路线</td>
+</tr>
+<tr>
+<td><code>TaskFinishedEvent</code></td>
+<td>整个任务完成</td>
+<td>触发任务完成逻辑</td>
+</tr>
+<tr>
+<td><code>OnlineEvent</code></td>
+<td>设备通讯建立</td>
+<td>发送初始化/注册报文</td>
+</tr>
+<tr>
+<td><code>OfflineEvent</code></td>
+<td>设备通讯断开</td>
+<td>告警/停止下发</td>
+</tr>
+<tr>
+<td><code>DecisionRestrictionEvent</code></td>
+<td>路径决策时</td>
+<td>限制某些路径不让走</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="_14">九、通讯方式支持一览</h2>
+<table>
+<thead>
+<tr>
+<th>通讯方式</th>
+<th>ProfControl 角色</th>
+<th>适用场景</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TCP 服务器</td>
+<td>作为 Server，等待车体连接</td>
+<td>多数 AGV 场景</td>
+</tr>
+<tr>
+<td>TCP 客户端</td>
+<td>作为 Client，主动连接车体</td>
+<td>车体是 Server 时</td>
+</tr>
+<tr>
+<td>UDP</td>
+<td>收发 UDP 报文</td>
+<td>实时性要求高、允许丢包</td>
+</tr>
+<tr>
+<td>HTTP</td>
+<td>提供/调用 REST API</td>
+<td>与 WMS/MES 对接</td>
+</tr>
+<tr>
+<td>ModBus TCP</td>
+<td>Master/Slave</td>
+<td>PLC 设备</td>
+</tr>
+<tr>
+<td>S7 读写</td>
+<td>西门子 PLC</td>
+<td>西门子 PLC 场景</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="faq">十、常见问题排查（FAQ）</h2>
+<table>
+<thead>
+<tr>
+<th>问题</th>
+<th>可能原因</th>
+<th>解决方法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>× 连接不上</td>
+<td>IP/端口错误 / 防火墙拦截</td>
+<td>检查 IP 端口，关闭防火墙测试</td>
+</tr>
+<tr>
+<td>× 不下发路径</td>
+<td>协议脚本未注册事件</td>
+<td>检查 <code>map.Register</code> 是否绑定了 <code>GetNewRoutesEvent</code></td>
+</tr>
+<tr>
+<td>× 车不走</td>
+<td>报文格式不对</td>
+<td>用调试助手抓包对比协议文档</td>
+</tr>
+<tr>
+<td>× 不上报位置</td>
+<td>未调用 <code>API.NewMarkPointRecv</code></td>
+<td>检查 <code>RecvData</code> 中的解析逻辑</td>
+</tr>
+<tr>
+<td>× 编译失败</td>
+<td>文件名和类名不一致</td>
+<td>确保 <code>.cs</code> 文件名 = 类名</td>
+</tr>
+<tr>
+<td>× 启动后不生效</td>
+<td>通讯配置未勾选“启用”</td>
+<td>勾选启用并保存</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="_15">总结一句话</h2>
+<blockquote>
+<p><strong>通讯协议脚本 = 翻译官 + 信使</strong><br />
+- 翻译：把 ProfControl 的路径/动作翻译成车体听得懂的字节流<br />
+- 传递：把车体的状态/电量/位置传递给 ProfControl<br />
+- 底层用 TCP/UDP/HTTP 做管道，上层用事件驱动做触发，中间用脚本代码做转换</p>
+</blockquote>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "search.suggest"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

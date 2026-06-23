@@ -16,3 +16,15 @@ nav:
   - 首页: index.md
   - 跨终端 Markdown 知识库方案对比.md 
   - ProfControl AGV仓储仿真系统 项目需求设计书.md
+
+
+  # -- NoteForge--
+  - ProfControl:
+    - "巷道与站点调度笔记": ProfControl/巷道与站点调度笔记.md
+    - "ProfControl 巷道调度系统完整笔记": ProfControl/ProfControl 巷道调度系统完整笔记.md
+    - "ProfControl 通讯协议：原理、作用与使用指南": ProfControl/ProfControl 通讯协议_原理_作用与使用指南.md
+    - "GYSY_Simulation 仓储AGV调度仿真系统分析笔记": ProfControl/GYSY_Simulation 仓储AGV调度仿真系统分析笔记.md
+    - "GYSY_Simulation1 项目说明": ProfControl/GYSY_Simulation1 项目说明.md
+    - "ProfControl AGV仓储仿真系统 项目需求设计书": ProfControl/ProfControl AGV仓储仿真系统 项目需求设计书.md
+    - "异步回调（Asynchronous Callback）原理与 C# 实现": ProfControl/异步回调_Asynchronous Callback_原理与 C_ 实现.md
+  # -- /NoteForge--
